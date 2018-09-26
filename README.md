@@ -9,7 +9,7 @@
   
 
 ## 目录结构
-![image](https://github.com/shenping1916/go-mysql-elasticsearch/master/images/1537927471962.jpg)
+![image](https://github.com/shenping1916/go-mysql-elasticsearch/images/1537927471962.jpg)
 
 ## 约定规则：
 + nsq topic："db_name"."db_tablename"."business"
