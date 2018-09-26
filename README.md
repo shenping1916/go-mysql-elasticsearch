@@ -17,6 +17,7 @@
   例如：app.user.auth
 
 ## sql：
+建立表：
 CREATE TABLE `nsq_topic` (
     `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
     `db_name` varchar(30) NOT NULL COMMENT '数据库名',
