@@ -1,21 +1,20 @@
 package plugin
 
 import (
-	"fmt"
-	"regexp"
-	"strconv"
 	"dbsync/models"
-	"laoyuegou.com/configkit/nsq"
-	"go-mysql-elasticsearch/config"
-	"go-mysql-elasticsearch/plugin/utility/base"
+	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"go-mysql-elasticsearch/config"
+	"go-mysql-elasticsearch/plugin/utility/base"
+	"regexp"
+	"strconv"
 )
 
 var driver = "mysql"
 
 type Plugin struct {
-	NsqProd   *nsq.NsqProducer
+	NsqProd   *NsqProducer
 	DbRead    *gorm.DB
 }
 
@@ -47,7 +46,7 @@ func NewPlugin(cfg *config.Config) *Plugin {
 
 	// 初始化nsq生产者
 	for _, v := range cfg.Nsqs {
-		plugin.NsqProd, err = nsq.NewNsqProducer(v.Nsqwrites)
+		plugin.NsqProd, err = NewNsqProducer(v.Nsqwrites)
 		if err != nil {
 			panic(fmt.Errorf("初始化Nsq生产者失败！原因：%v", err.Error()))
 		}
