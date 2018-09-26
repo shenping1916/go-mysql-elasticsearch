@@ -1,0 +1,282 @@
+# MySQL address, user and password
+# user must have replication privilege in MySQL.
+my_addr = "127.0.0.1:3306"
+my_user = "root"
+my_pass = "BER3ZRdw3wGMn5N5"
+my_charset = "utf8"
+
+# Mysql plugin configuration
+# Read table: nsq_topic From dbsync
+self_my_host = "127.0.0.1"
+self_my_port = 3306
+self_my_user = "root"
+self_my_passwd = "BER3ZRdw3wGMn5N5"
+self_my_db = "dbsync"
+
+# Set true when elasticsearch use https
+#es_https = false
+# Elasticsearch address
+es_addr = "127.0.0.1:9200"
+# Elasticsearch user and password, maybe set by shield, nginx, or x-pack
+es_user = ""
+es_pass = ""
+
+# Path to store data, like master.info, if not set or empty,
+# we must use this to support breakpoint resume syncing.
+# TODO: support other storage, like etcd.
+data_dir = "./var"
+
+# Inner Http status address
+stat_addr = "127.0.0.1:12800"
+
+# pseudo server id like a slave
+server_id = 1001
+
+# mysql or mariadb
+flavor = "mysql"
+
+# mysqldump execution path
+# if not set or empty, ignore mysqldump.
+mysqldump = "/usr/local/mysql/bin/mysqldump"
+
+# if we have no privilege to use mysqldump with --master-data,
+# we must skip it.
+#skip_master_data = false
+
+# minimal items to be inserted in one bulk
+bulk_size = 128
+
+# force flush the pending requests if we don't have enough items >= bulk_size
+flush_bulk_time = "200ms"
+
+# Ignore table without primary key
+skip_no_pk_table = false
+
+# Ignore dump tables
+dump_ignore_tables = ["order_pay.orders_stream", "app.play_order", "", "chatroom.gifts_stream"]
+
+# Nsq Writers
+[[nsq]]
+nsq_writers = ["121.196.230.94:4150"]
+
+# MySQL data source
+[[source]]
+schema = "order_pay"
+
+# Only below tables will be synced into Elasticsearch.
+# "t_[0-9]{4}" is a wildcard table format, you can use it if you have many sub tables, like table_0000 - table_1023
+# I don't think it is necessary to sync all tables in a database.
+#tables = ["t", "t_[0-9]{4}", "tfield", "tfilter"]
+tables = ["orders_stream"]
+
+[[rule]]
+schema = "order_pay"
+table = "orders_stream"
+index = "order_pay"
+type = "orders_stream"
+
+filter = ["oid", "order_id", "sub_order_id", "order_type", "order_status", "order_biz", "buy_id", "seller_id", "goods_id", "goods_amount", "goods_promotion_amount", "goods_deal_amount", "payment_trans_no", "app_trans_no", "h5_trans_no", "pt_trans_no", "pt_refund_trans_no", "pt_trans_account", "refund_fee", "payment_type", "create_time", "pay_time", "refund_time", "end_time", "order_history", "coupon_id", "supplement", "device", "platform", "app_version"]
+
+[rule.field]
+oid="oid"
+order_id="order_id"
+sub_order_id="sub_order_id"
+order_type="order_type"
+order_status="order_status"
+order_biz="order_biz"
+buy_id="buy_id"
+seller_id="seller_id"
+goods_id="goods_id"
+goods_amount="goods_amount"
+goods_promotion_amount="goods_promotion_amount"
+goods_deal_amount="goods_deal_amount"
+goods_desc="goods_desc"
+payment_trans_no="payment_trans_no"
+app_trans_no="app_trans_no"
+h5_trans_no="h5_trans_no"
+pt_trans_no="pt_trans_no"
+pt_refund_trans_no="pt_refund_trans_no"
+pt_trans_account="pt_trans_account"
+refund_fee="refund_fee"
+payment_type="payment_type"
+create_time="create_time"
+pay_time="pay_time"
+refund_time="refund_time"
+end_time="end_time"
+order_history="order_history"
+notify_url="notify_url"
+close_url="close_url"
+over_time="over_time"
+coupon_id="coupon_id"
+supplement="supplement"
+device="device"
+platform="platform"
+app_version="app_version"
+# Map column `tags` to ES field `es_tags` with array type
+#tags="es_tags,list"
+# Map column `keywords` to ES with array type
+#keywords=",list"
+
+#######################################################################################################################################
+## MySQL data source
+[[source]]
+schema = "app"
+
+## # Only below tables will be synced into Elasticsearch.
+## # "t_[0-9]{4}" is a wildcard table format, you can use it if you have many sub tables, like table_0000 - table_1023
+## # I don't think it is necessary to sync all tables in a database.
+tables = ["play_order"]
+
+[[rule]]
+schema = "app"
+table = "play_order"
+index = "app:play_order"
+type = "play_order"
+
+[rule.field]
+create_time="create_time"
+pay_time="pay_time"
+accept_time="accept_time"
+cancel_time="cancel_time"
+goods_id="goods_id"
+number="number"
+price="price"
+supplement="supplement"
+supplement_requests="supplement_requests"
+supplement_times="supplement_times"
+discount="discount"
+discount_activity="discount_activity"
+discount_activity_desc="discount_activity_desc"
+buyer="buyer"
+god="god"
+game_id="game_id"
+game_info="game_info"
+user_account="user_account"
+god_account="god_account"
+is_god_proprietary="is_god_proprietary"
+screenshot="screenshot"
+state="state"
+last_event="last_event"
+last_event_args="last_event_args"
+all_events="all_events"
+cancel_reason="cancel_reason"
+auto_complete_remain_time="auto_complete_remain_time"
+god_refuse_reason="god_refuse_reason"
+is_refund="is_refund"
+is_god_receive_money="is_god_receive_money"
+type="type"
+source_type="source_type"
+source_id="source_id"
+update_time="update_time"
+complete_time="complete_time"
+confirm_time="confirm_time"
+
+#######################################################################################################################################
+## MySQL data source
+[[source]]
+schema = "app"
+
+## # Only below tables will be synced into Elasticsearch.
+## # "t_[0-9]{4}" is a wildcard table format, you can use it if you have many sub tables, like table_0000 - table_1023
+## # I don't think it is necessary to sync all tables in a database.
+tables = ["modegame"]
+
+[[rule]]
+schema = "app"
+table = "modegame"
+index = "app:modegame"
+type = "modegame"
+
+[rule.field]
+id="id"
+usename="username"
+phone="phone"
+sex="sex"
+createtime="createtime"
+status="status"
+avatar="avatar"
+gouhao="gouhao"
+birthday="birthday"
+update_time="update_time"
+avatars="avatars"
+last_login="last_login"
+signature="signature"
+appfrom="appfrom"
+appver="appver"
+backgroud_image="backgroud_image"
+update_appver="update_appver"
+access_token="access_token"
+login_pwd="login_pwd"
+privacy="privacy"
+loadRecTags="loadRecTags"
+game_power="game_power"
+mark="mark"
+user_group="user_group"
+user_icon="user_icon"
+greet_word="greet_word"
+greet_word_first="greet_word_first"
+invalid="invalid"
+level="level"
+question_photo="question_photo"
+lan="lan"
+notify="notify"
+appfrom_ori="appfrom_ori"
+appid="appid"
+unique_phone="unique_phone"
+country_code="country_code"
+
+#######################################################################################################################################
+## MySQL data source
+[[source]]
+schema = "app"
+
+## # Only below tables will be synced into Elasticsearch.
+## # "t_[0-9]{4}" is a wildcard table format, you can use it if you have many sub tables, like table_0000 - table_1023
+## # I don't think it is necessary to sync all tables in a database.
+tables = ["user_game_bind"]
+
+[[rule]]
+schema = "app"
+table = "user_game_bind"
+index = "app:user_game_bind"
+type = "user_game_bind"
+
+[rule.field]
+id="id"
+userId="userId"
+gameId="gameId"
+roleId="roleId"
+createdTime="createdTime"
+status="status"
+update_time="update_time"
+actived="actived"
+extras="extras"
+spare1="spare1"
+no_date_type="no_date_type"
+
+#######################################################################################################################################
+# MySQL data source
+[[source]]
+schema = "chatroom"
+
+# Only below tables will be synced into Elasticsearch.
+# "t_[0-9]{4}" is a wildcard table format, you can use it if you have many sub tables, like table_0000 - table_1023
+# I don't think it is necessary to sync all tables in a database.
+tables = ["gifts_stream"]
+
+[[rule]]
+schema = "chatroom"
+table = "gifts_stream"
+index = "chatroom:gifts_stream"
+type = "gifts_stream"
+
+[rule.field]
+gid="gid"
+trace_id="trace_id"
+region_id="region_id"
+region="region"
+g_id="g_id"
+s_user_id="s_user_id"
+r_user_id="r_user_id"
+gou_liang="gou_liang"
+create_time="create_time"
