@@ -4,7 +4,7 @@
 
 主要支持：
 + 对mysql binlog的二次处理，写入nsq
-+ 同一条`binlog`事件可按`nsq topic`拆分成多条进行投递 
++ 同一条`binlog`事件可按`nsq topic`拆分成多条进行投递 
 + 加入了对`mysqldump`的`binlog`(历史)进行过滤，从而写入`nsq`的`binlog`只是关心的事件
   
 
