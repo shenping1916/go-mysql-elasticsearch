@@ -1,9 +1,9 @@
-原包链接：https://github.com/siddontang/go-mysql-elasticsearch
+原包链接：`https://github.com/siddontang/go-mysql-elasticsearch`
 本包是对 `go-mysql-elasticsearch` 的二次开发
 主要支持：
 + 对mysql binlog的二次处理，写入nsq
-+ 同一条binlog事件可按nsq topic拆分成多条进行投递 
-+ 加入了对mysqldump的binlog(历史)进行过滤，从而写入nsq的binlog只是关心的事件
++ 同一条`binlog`事件可按`nsq topic`拆分成多条进行投递 
++ 加入了对`mysqldump`的`binlog`(历史)进行过滤，从而写入`nsq`的`binlog`只是关心的事件
   
 
 ## 目录结构
