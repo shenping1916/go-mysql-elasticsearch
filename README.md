@@ -9,7 +9,7 @@
   
 
 ## 目录结构
-![image](https://github.com/shenping1916/go-mysql-elasticsearch/images/1537927471962.jpg)
+![Alt text](https://github.com/shenping1916/go-mysql-elasticsearch/master/images/1537927471962.jpg)
 
 ## 约定规则：
 + nsq topic："db_name"."db_tablename"."business"
@@ -33,15 +33,15 @@ CREATE TABLE `nsq_topic` (
 ## 使用前
 ### 一、
 修改`github.com/siddontang/go-mysql/canal/rows.go`
-![image](https://github.com/shenping1916/go-mysql-elasticsearch/master/images/1537928423942.jpg)
+![Alt text](https://github.com/shenping1916/go-mysql-elasticsearch/master/images/1537928423942.jpg)
 
 ### 二、
 修改`github.com/siddontang/go-mysql/canal/dump.go`
-![image](https://github.com/shenping1916/go-mysql-elasticsearch/master/images/1537928575018.jpg)
+![Alt text](https://github.com/shenping1916/go-mysql-elasticsearch/master/images/1537928575018.jpg)
 
 ### 三、
 修改`github.com/siddontang/go-mysql/canal/sync.go`
-![image](https://github.com/shenping1916/go-mysql-elasticsearch/master/images/1537928880538.jpg)
+![Alt text](https://github.com/shenping1916/go-mysql-elasticsearch/master/images/1537928880538.jpg)
 
 ## 如何使用?
 + 启动： `./bin/go-mysql-elasticsearch -config=./etc/river.toml`.
